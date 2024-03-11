@@ -55,13 +55,31 @@ func (ur *UserRepository) Login(email, password string) (*models.User, error) {
 	return &user, nil
 }
 
-func (ur *UserRepository) GetUserList() (*models.User, error) {
-	// Retrieve the user from the database
-	var user models.User
-	err := ur.DB.QueryRow("SELECT * FROM users").Scan(&user.ID, &user.Email, &user.Password)
+func (ur *UserRepository) GetUserList() ([]*models.User, error) {
+	// Prepare the query to retrieve users from the database
+	rows, err := ur.DB.Query("SELECT * FROM users")
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
-	return &user, nil
+	// Create a slice to hold the users
+	var users []*models.User
+
+	// Iterate over the rows and scan each row into a User struct
+	for rows.Next() {
+		var user models.User
+		if err := rows.Scan(&user.ID, &user.Email, &user.Password); err != nil {
+			return nil, err
+		}
+		// Append the user to the slice
+		users = append(users, &user)
+	}
+
+	// Check for any errors encountered during iteration
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }

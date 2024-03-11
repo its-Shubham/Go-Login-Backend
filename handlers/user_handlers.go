@@ -38,3 +38,14 @@ func LoginHandler(userRepo *repository.UserRepository) gin.HandlerFunc {
 		c.JSON(http.StatusOK, user)
 	}
 }
+
+func getUserList(userRepo *repository.UserRepository) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		user, err := userRepo.GetUserList()
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+			return
+		}
+		c.JSON(http.StatusOK, user)
+	}
+}

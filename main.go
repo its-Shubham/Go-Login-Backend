@@ -1,4 +1,4 @@
-package Project1
+package main
 
 import (
 	"backend/config"
@@ -31,7 +31,7 @@ func main() {
 	router := handlers.SetupRouter(db)
 
 	// Start server
-	port := "8080" // You can change the port as per your requirement
+	port := "9080" // You can change the port as per your requirement
 	fmt.Printf("Server is running on port %s...\n", port)
 	if err := http.ListenAndServe(":"+port, router); err != nil {
 		log.Fatalf("Error starting server: %v", err)

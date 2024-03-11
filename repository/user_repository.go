@@ -54,3 +54,14 @@ func (ur *UserRepository) Login(email, password string) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (ur *UserRepository) GetUserList() (*models.User, error) {
+	// Retrieve the user from the database
+	var user models.User
+	err := ur.DB.QueryRow("SELECT * FROM users").Scan(&user.ID, &user.Email, &user.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

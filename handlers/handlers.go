@@ -19,6 +19,7 @@ func SetupRouter(db *sql.DB) *gin.Engine {
 		// User routes
 		v1.POST("/register", RegisterHandler(userRepo))
 		v1.POST("/login", LoginHandler(userRepo))
+		v1.GET("/users", getUserList(userRepo))
 		// Add more routes here as needed
 	}
 

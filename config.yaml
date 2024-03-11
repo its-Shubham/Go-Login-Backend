@@ -1,6 +1,6 @@
 db:
   host: localhost
-  port: 5432
-  user: postgres
-  password: root
-  name: postgres
+  port: 3306
+  user: root
+  password: Admin@123
+  name: client
